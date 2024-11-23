@@ -1,16 +1,3 @@
-sudo apt-get install tor
-sudo /etc/init.d/tor restart
-tor --hash-password 12345
-sudo vim /etc/tor/torrc
-#### PONER ESTO EN EL TORRC
-ControlPort 9051
-HashedControlPassword 16:C4067B4AF8FB4EBE60DB39ACE563ACC8DDD676274EAF8CE706EF5E2507
-CookieAuthentication 1
-###
-sudo /etc/init.d/tor restart
-### si hay problemas al habilitar el servicio ejecuta:
-tor --controlport 9051 &
-###### para que quede backgrpund el servicio
 
 pip install stem 
 
@@ -29,6 +16,11 @@ sudo apt install openvpn openvpn-systemd-resolved
 expressvpn install-chrome-extension
 
 expressvpn preferences set network_lock off
+
+
+### ACLARO, YO LO EJECUTE EN MAC, POR ESO EN EL CODIGO USO LA PALABRA EXPRESSO EN LUGAR DE EXPRESSVPN
+## PERO EN LINUX DEBEN PONER en la conexion del codigo prueba expressvpn connect, en lugar de expresso connect y para desconectar igual, expressvpn disconnect
+
 
 
 
