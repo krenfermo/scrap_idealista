@@ -15,12 +15,25 @@ import requests
 from stem import Signal
 from stem.control import Controller
 
-import time
+import os
 
  
 SCRAPERAPI_KEY = "5f6fc6edaf9267d33a9fcc94214c58d9"  # Reemplaza con tu clave
 SCRAPERAPI_PROXY = f"http://scraperapi:{SCRAPERAPI_KEY}@proxy-server.scraperapi.com:8001"  # Formato compatible con SeleniumBase
 SCRAPERAPI_PARAMS = f"api_key={SCRAPERAPI_KEY}&render=true"
+
+
+# Función para conectar ExpressVPN a un servidor específico
+def connect_expressvpn(server_location="smart"):
+    print(f"Conectando a ExpressVPN ({server_location})...")
+    os.system(f"expresso connect {server_location}")  # Conecta al servidor especificado
+    time.sleep(10)  # Espera a que la conexión se establezca completamente
+
+# Función para desconectar ExpressVPN
+def disconnect_expressvpn():
+    print("Desconectando ExpressVPN...")
+    os.system("expresso disconnect")
+    time.sleep(5)
 
 
 
@@ -50,8 +63,8 @@ def navega(url):
         #COMPRUEBO LA IP CAMBIADA
         #make_request(url)
         
-        #chrome = setup_browser()
-        chrome=setup_browser_SCRAPERAPI()
+        chrome = setup_browser()
+        #chrome=setup_browser_SCRAPERAPI()
         #chrome=setup_browser_TOR()
         time.sleep(1)
         chrome.sleep(random.uniform(2, 4))
@@ -93,19 +106,19 @@ def navega(url):
         print("llena interesado")
         email_input = chrome.find_element(By.XPATH, '/html/body/div[6]/div/div/div/div[3]/div/section/div/div[4]/form/div[3]/div[1]/div/label/div/input')
         email_input.clear()  # Limpia el campo si tiene algún valor previo
-        email_input.send_keys("usuario2@ejemplo.com")  # Ingresa el correo deseado
+        email_input.send_keys("jmora@mimail.com")  # Ingresa el correo deseado
         print("llena correo")
         time.sleep(2)
         # Llenar el teléfono
         telefono = chrome.find_element(By.XPATH, '/html/body/div[6]/div/div/div/div[3]/div/section/div/div[4]/form/div[3]/div[2]/div[1]/label/div/div/div/div[1]/div/input')
         telefono.clear()
-        telefono.send_keys("640123456")
+        telefono.send_keys("667852255")
         print("llena nuemero")
         time.sleep(2)
         # Llenar el nombre
         nombre = chrome.find_element(By.XPATH, '/html/body/div[6]/div/div/div/div[3]/div/section/div/div[4]/form/div[3]/div[2]/div[2]/label/input')
         nombre.clear()
-        nombre.send_keys("Juan Pérez")
+        nombre.send_keys("Joaquin M")
         nombre.send_keys(Keys.TAB)
         time.sleep(.5)
         checkbox = chrome.find_element(By.XPATH, '/html/body/div[6]/div/div/div/div[3]/div/section/div/div[4]/form/div[3]/div[5]/div/label')
@@ -124,10 +137,11 @@ def navega(url):
         print("dio click en contactar")
  
         chrome.save_screenshot(ut.resource_path(f"assets/screen_b_6.png"))
-
+        disconnect_expressvpn()
         chrome.quit()
     except Exception as err:
         print(err)
+        disconnect_expressvpn()
         #chrome.quit()
 
 
@@ -179,6 +193,15 @@ def setup_browser_SCRAPERAPI():
     return driver
 
 
+def setup_browser():
+    # Configuración de ScraperAPI
+
+    connect_expressvpn(server_location="ES")
+    driver = Driver( 
+        headless=False,   
+        uc=True  
+    )
+    return driver
     
 if __name__ == "__main__":
     url=f"https://www.idealista.com/inmueble/103547208/"
